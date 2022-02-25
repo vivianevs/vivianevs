@@ -1,0 +1,46 @@
+import pandas as pd
+import win32com.client as win32
+
+
+#define variavel email
+outlook = win32.Dispatch('outlook.application')
+
+#lista de emails
+nome_df = pd.read_excel('S:/envio_pdf/Enviar E-mails.xlsx')
+
+#exibe as informações dentro da tabela
+#nome_df.info()
+
+#define as variaveis do arquivo Enviar E-mails
+for i, email in enumerate(nome_df['E-mail']):
+    nome = nome_df.loc[i, 'Nome']
+    data = nome_df.loc[i, 'Data']
+    pdf = nome_df.loc[i, 'pdf']
+   
+      
+    mail = outlook.CreateItem(0)
+    mail.To = email
+    mail.Subject = 'Vestibular Singularidades'
+    mail.HTMLBody = '''
+    
+    Olá {}, tudo bem?
+    
+    <p>corpo do e-mail</p>
+  
+   
+           
+    <p>Qualquer dúvida estou à disposição.</p>
+    <p>Att.,</p>
+    
+    
+    <p><img src="link de imagem de assinatura /></p>
+  
+   '''.format(nome, data)
+    
+    #anexa um pdf ao e-mail
+    attachment  = r'S:\envio_pdf\pdf\{}.pdf'.format(pdf)
+    mail.Attachments.Add(attachment)
+    
+    
+    mail.Send()
+    print("Email Enviado")
