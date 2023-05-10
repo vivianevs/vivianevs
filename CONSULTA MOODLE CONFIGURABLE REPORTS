@@ -33,7 +33,7 @@ WHERE e.courseid IN (
 			AND cc.timecompleted IS NULL								
 				 /*	u.username = '11111111111*/
 				/*  u.institution = 'regiao_4'*/
-				/*  u.department = 'médico'*/
+				/*  u.department = 'teste'*/
 				/*	u.city = 'Bom Jesus dos Perdões'*/
 
 
