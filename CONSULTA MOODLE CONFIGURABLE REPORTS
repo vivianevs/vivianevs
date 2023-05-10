@@ -1,0 +1,54 @@
+SELECT DISTINCT 
+
+u.username,
+u.firstname, 
+u.lastname, 
+u.email,
+u.department,
+u.institution,
+e.enrol,
+cc.course, 
+u.city,
+/*g.name AS "Grupo",*/
+
+CONVERT(varchar(20), DATEADD(second, ue.timecreated, '19700101'), 103) + ' ' + CONVERT(varchar(20), DATEADD(second, ue.timecreated, '19700101'), 108) AS "Data de Inscrição",
+CONVERT(varchar(20), DATEADD(second, cc.timecompleted, '19700101'), 103) + ' ' + CONVERT(varchar(20), DATEADD(second, cc.timecompleted, '19700101'), 108) AS "Conclusão do curso"
+
+FROM prefix_user u
+
+JOIN prefix_user_enrolments ue ON ue.userid = u.id
+JOIN prefix_enrol e ON e.id = ue.enrolid
+LEFT JOIN prefix_course_completions cc ON cc.userid = u.id AND cc.course = e.courseid
+LEFT JOIN prefix_groups_members gm ON gm.userid = u.id
+LEFT JOIN prefix_groups g ON g.id = gm.groupid
+
+WHERE e.courseid IN ( 					
+  		    '109','124','104','121','122','13',
+	        '129','132','150','172','19','168','68','72','148','91','136',
+			'160', '126','130','176','135','93','138','127','119','98'
+		
+					) 
+					
+					
+			AND cc.timecompleted IS NULL								
+				 /*	u.username = '11111111111*/
+				/*  u.institution = 'regiao_4'*/
+				/*  u.department = 'médico'*/
+				/*	u.city = 'Bom Jesus dos Perdões'*/
+
+
+ /*FILTRO DE INSCRIÇÃO POR ANO 
+AND CONVERT(DATETIME, CONVERT(VARCHAR(10), DATEADD(SECOND, ue.timecreated, '19700101'), 103), 103) >= '2023-05-01'*/
+
+
+/*FILTRO DE CONCLUSÃO DE ANO
+AND CONVERT(DATETIME, CONVERT(VARCHAR(10), DATEADD(SECOND, cc.timecompleted, '19700101'), 103), 103) >= '2023-05-02'*/
+
+
+
+and u.suspended = '0'
+
+/*AND gm.groupid is null*/
+/*AND g.name LIKE '%0%'*/
+
+
